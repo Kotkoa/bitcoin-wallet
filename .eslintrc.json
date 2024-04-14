@@ -1,0 +1,32 @@
+{
+  "parserOptions": {
+    "sourceType": "module",
+    "ecmaVersion": "latest"
+  },
+  "plugins": ["@typescript-eslint", "simple-import-sort"],
+  "extends": [
+    "next/core-web-vitals",
+    "plugin:@typescript-eslint/recommended",
+    "prettier"
+  ],
+  "rules": {
+    "simple-import-sort/imports": [
+      "error",
+      {
+        "groups": [
+          ["^react"],
+          ["^\\u0000"],
+          ["^@mui", "mui-color"],
+          ["^@?\\w"],
+          ["@/(.*)"],
+          ["^[./]"],
+          ["^\\."],
+          ["^.+\\.scss$", "^classnames$"]
+        ]
+      }
+    ],
+    "simple-import-sort/exports": "warn",
+    "@typescript-eslint/no-unused-vars": "error",
+    "@typescript-eslint/no-explicit-any": "error"
+  }
+}
