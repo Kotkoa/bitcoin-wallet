@@ -1,17 +1,17 @@
 {
+  "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "sourceType": "module",
     "ecmaVersion": "latest"
   },
+  "ecmaFeatures": {
+    "jsx": true
+  },
   "plugins": ["@typescript-eslint", "simple-import-sort"],
-  "extends": [
-    "next/core-web-vitals",
-    "plugin:@typescript-eslint/recommended",
-    "prettier"
-  ],
+  "extends": ["next/core-web-vitals", "plugin:@typescript-eslint/recommended", "prettier"],
   "rules": {
     "simple-import-sort/imports": [
-      "error",
+      "warn",
       {
         "groups": [
           ["^react"],
@@ -21,12 +21,17 @@
           ["@/(.*)"],
           ["^[./]"],
           ["^\\."],
-          ["^.+\\.scss$", "^classnames$"]
+          ["^.+\\.css$", "^classnames$"]
         ]
       }
     ],
     "simple-import-sort/exports": "warn",
     "@typescript-eslint/no-unused-vars": "error",
     "@typescript-eslint/no-explicit-any": "error"
+  },
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
   }
 }

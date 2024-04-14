@@ -1,8 +1,17 @@
+// import { useState } from 'react';
+// import { useDispatch, useSelector } from 'react-redux';
+
 import Head from 'next/head';
 
 import styles from '@/styles/Home.module.css';
 
+// import { decrement, increment, incrementByAmount, selectCount } from '../redusers/counterSlice';
+
 export default function Home() {
+  // const count = useSelector(selectCount);
+  // const dispatch = useDispatch();
+  // const [incrementAmount, setIncrementAmount] = useState('2');
+
   return (
     <>
       <Head>
