@@ -4,4 +4,21 @@
   justify-content: center;
   align-items: center;
   min-height: 100vh;
+
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  line-height: 16.94px;
+  font-weight: 500;
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  width: 448px;
+  padding: 24px;
+  background-color: #1c1c1e;
+  border-radius: 10px;
 }

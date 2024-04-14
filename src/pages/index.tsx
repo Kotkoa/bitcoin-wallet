@@ -3,7 +3,10 @@
 
 import Head from 'next/head';
 
+import { Avatar } from '@/components/avatar';
+import { Content } from '@/components/content';
 import styles from '@/styles/Home.module.css';
+import { ContentTypeE } from '@/types/types';
 
 // import { decrement, increment, incrementByAmount, selectCount } from '../redusers/counterSlice';
 
@@ -20,7 +23,12 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className={styles.main}>Template</main>
+      <main className={styles.main}>
+        <div className={styles.wrapper}>
+          <Avatar />
+          <Content view={ContentTypeE.Wallet} />
+        </div>
+      </main>
     </>
   );
 }
