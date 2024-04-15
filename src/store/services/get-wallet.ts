@@ -1,32 +1,33 @@
-import { initializeWallet } from '../features/walletSlice';
-import { AppThunk } from '../store';
+import ecc from '@bitcoinerlab/secp256k1';
+import * as bitcoin from 'bitcoinjs-lib';
+import ECPairFactory from 'ecpair';
 
-export interface Transaction {
-  direction: 'reseived' | 'sent';
-  confirmed: boolean;
-  addressFrom: string;
-  amount: number;
+export interface WalletDetails {
+  address: string;
+  privateKey: string;
 }
 
-export const fetchWalletData =
-  (address: string): AppThunk =>
-  async (dispatch) => {
-    try {
-      const response = await fetch(`https://api.example.com/wallet?address=${address}`);
-      const data = await response.json();
-      dispatch(
-        initializeWallet({
-          address: address,
-          balance: data.balance,
-          transactions: data.transactions.map((transaction: Transaction) => ({
-            direction: transaction.direction,
-            confirmed: transaction.confirmed,
-            addressFrom: transaction.addressFrom,
-            amount: transaction.amount,
-          })),
-        })
-      );
-    } catch (error) {
-      console.error('Failed to fetch wallet data:', error);
+export const createWallet = () => {
+  const ECPair = ECPairFactory(ecc);
+  const TESTNET = bitcoin.networks.testnet;
+  try {
+    const keyPair = ECPair.makeRandom({ network: TESTNET });
+    const { address } = bitcoin.payments.p2pkh({
+      pubkey: keyPair.publicKey,
+      network: TESTNET,
+    });
+    const privateKey = keyPair.toWIF(); // Get the private key in Wallet Import Format
+
+    console.log('New Bitcoin Address:', address);
+    console.log('Private Key:', privateKey);
+
+    if (address) {
+      localStorage.setItem('walletAddress', address);
+      localStorage.setItem('privateKey', privateKey);
     }
-  };
+
+    return { address, privateKey };
+  } catch (error) {
+    console.error('Error creating wallet:', error);
+  }
+};

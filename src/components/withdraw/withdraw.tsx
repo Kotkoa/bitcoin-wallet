@@ -2,8 +2,6 @@ import { type FC, useState } from 'react';
 
 import { PaperAirplaneIcon } from '@heroicons/react/24/solid';
 
-import { ContentTypeE } from '@/types/types';
-
 import { Button } from '../button';
 import { InnerWrapper } from '../inner-wrapper';
 import { Input } from '../input';
@@ -15,8 +13,8 @@ export const Withdraw: FC = () => {
   const [funds, setFunds] = useState('0,007');
 
   return (
-    <>
-      <h1 className={styles.header}>{ContentTypeE.Withdraw}</h1>
+    <div>
+      <h1 className={styles.header}>Send BTC</h1>
       <InnerWrapper>
         <Input
           name="address"
@@ -45,6 +43,6 @@ export const Withdraw: FC = () => {
           />
         </div>
       </InnerWrapper>
-    </>
+    </div>
   );
 };

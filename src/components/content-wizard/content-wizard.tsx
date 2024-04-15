@@ -1,27 +1,27 @@
 import type { FC } from 'react';
+import { useSelector } from 'react-redux';
 
-import { ContentTypeE } from '@/types/types';
-
-import { Deposit } from '../deposit';
-import { SuccessWithdraw } from '../success-withdraw';
-import { Wallet } from '../wallet';
-import { Welcome } from '../welcome';
-import { Withdraw } from '../withdraw';
+import { contentViews } from '@/store/models/state-machine.types';
+import { RootState } from '@/store/store';
 
 import styles from './content-wizard.module.css';
 
-interface ContentProps {
-  currentView: ContentTypeE;
-}
+export const ContentWizard: FC = () => {
+  const currentView = useSelector((state: RootState) => state.wallet.currentView);
+  const ViewComponent = contentViews[currentView];
 
-const contentViews = {
-  [ContentTypeE.Welcome]: <Welcome />,
-  [ContentTypeE.Wallet]: <Wallet />,
-  [ContentTypeE.Deposit]: <Deposit />,
-  [ContentTypeE.Withdraw]: <Withdraw />,
-  [ContentTypeE.SuccessWithdraw]: <SuccessWithdraw />,
-};
+  if (!ViewComponent) {
+    console.error(`No view available for state: ${currentView}`);
+    return (
+      <div className={styles.contentWrapper}>
+        <p>No view available for this state.</p>
+      </div>
+    );
+  }
 
-export const ContentWizard: FC<ContentProps> = ({ currentView: view }) => {
-  return <div className={styles.contentWrapper}>{contentViews[view]}</div>;
+  return (
+    <div className={styles.contentWrapper}>
+      <ViewComponent />
+    </div>
+  );
 };

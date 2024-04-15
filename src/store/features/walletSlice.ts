@@ -1,41 +1,65 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import { Transaction } from '../services/get-wallet';
+import { ContentViewE, Transaction } from '../models/state-machine.types';
 
 interface WalletState {
-  address: string | null | undefined; // Store only address in local storage
+  currentView: ContentViewE;
+  address: string | null | undefined;
+  privateKey: string | null;
   balance: number;
   transactions: Transaction[];
 }
-// Load the initial state from localStorage if available
-const loadWalletAddress = (): string | null | undefined => {
-  return localStorage.getItem('walletAddress');
+
+export const LocalStorageE = {
+  walletAddress: 'walletAddress',
+  privateKey: 'privateKey',
 };
+
+const loadWalletAddress = (): string | null => {
+  if (typeof window !== 'undefined') {
+    const localData = localStorage.getItem(LocalStorageE.walletAddress);
+    console.log('localData', localData);
+    return localData;
+  } else {
+    return null;
+  }
+};
+
+const loadPrivateKey = (): string | null => {
+  if (typeof window !== 'undefined') {
+    const localData = localStorage.getItem(LocalStorageE.privateKey);
+    return localData;
+  } else {
+    return null;
+  }
+};
+
+const walletAddress = loadWalletAddress();
+const privateKey = loadPrivateKey();
+const isAddressExist = walletAddress !== null;
 
 const initialState: WalletState = {
-  address: loadWalletAddress(),
+  currentView: isAddressExist ? ContentViewE.Wallet : ContentViewE.Welcome,
+  address: walletAddress,
+  privateKey: privateKey,
   balance: 0,
   transactions: [],
-};
-
-//Save to localStore only address
-export const saveStateToLocalStorage = (address: WalletState['address']) => {
-  try {
-    const serializedState = JSON.stringify(address);
-
-    localStorage.setItem('wallet', serializedState);
-  } catch (err) {
-    console.error('Could not save state', err);
-  }
 };
 
 const walletSlice = createSlice({
   name: 'wallet',
   initialState,
   reducers: {
+    setCurrentView(state, action: PayloadAction<ContentViewE>) {
+      state.currentView = action.payload;
+    },
     setAddress(state, action: PayloadAction<string>) {
       state.address = action.payload;
-      localStorage.setItem('walletAddress', action.payload);
+      localStorage.setItem(LocalStorageE.walletAddress, action.payload);
+    },
+    setPrivatKey(state, action: PayloadAction<string>) {
+      state.privateKey = action.payload;
+      localStorage.setItem(LocalStorageE.privateKey, action.payload);
     },
     setBalance(state, action: PayloadAction<number>) {
       state.balance = action.payload;
@@ -43,17 +67,9 @@ const walletSlice = createSlice({
     addTransaction(state, action: PayloadAction<Transaction>) {
       state.transactions.push(action.payload);
     },
-    initializeWallet(
-      state,
-      action: PayloadAction<{ address: string; balance: number; transactions: Transaction[] }>
-    ) {
-      state.address = action.payload.address;
-      state.balance = action.payload.balance;
-      state.transactions = action.payload.transactions;
-      localStorage.setItem('walletAddress', action.payload.address);
-    },
   },
 });
 
-export const { setAddress, setBalance, addTransaction, initializeWallet } = walletSlice.actions;
+export const { setCurrentView, setAddress, setPrivatKey, setBalance, addTransaction } =
+  walletSlice.actions;
 export default walletSlice.reducer;

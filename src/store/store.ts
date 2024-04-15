@@ -1,11 +1,9 @@
 import { Action, configureStore, ThunkAction } from '@reduxjs/toolkit';
 
-import contentSlice from './features/contentSlice';
 import walletSlice from './features/walletSlice';
 
 export const store = configureStore({
   reducer: {
-    currentView: contentSlice,
     wallet: walletSlice,
   },
 });

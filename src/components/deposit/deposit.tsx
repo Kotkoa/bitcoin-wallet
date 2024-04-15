@@ -2,8 +2,6 @@ import type { FC } from 'react';
 
 import { DocumentDuplicateIcon } from '@heroicons/react/24/outline';
 
-import { ContentTypeE } from '@/types/types';
-
 import { Button } from '../button';
 import { InnerWrapper } from '../inner-wrapper';
 
@@ -11,8 +9,8 @@ import styles from './deposit.module.css';
 
 export const Deposit: FC = () => {
   return (
-    <>
-      <h1 className={styles.paragraph}>{ContentTypeE.Deposit}</h1>
+    <div>
+      <h1 className={styles.paragraph}>Deposit BTC</h1>
       <InnerWrapper>
         <div className={styles.row}>
           <p className={styles.paragraph}>Your Bitcoin address</p>
@@ -27,6 +25,6 @@ export const Deposit: FC = () => {
           />
         </div>
       </InnerWrapper>
-    </>
+    </div>
   );
 };

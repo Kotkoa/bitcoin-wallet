@@ -2,6 +2,11 @@
   font-size: 30px;
   font-weight: 700;
   line-height: 36.31px;
+
+  width: 60%; /* Set the width of the header to 60% of its container */
+  overflow: hidden; /* Prevent text from overflowing */
+  text-overflow: ellipsis; /* Add ellipsis when text overflows */
+  white-space: nowrap; /* Keep the text on a single line */
 }
 
 .paragraph {
@@ -30,7 +35,7 @@
 .rowAlignLeft {
   display: flex;
   justify-content: flex-start;
-  margin-top: 10px;
+  margin: 10px 0;
   gap: 5px;
   width: 100%;
 }

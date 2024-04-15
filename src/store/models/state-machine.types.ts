@@ -4,62 +4,68 @@ import { Wallet } from '@/components/wallet';
 import { Welcome } from '@/components/welcome';
 import { Withdraw } from '@/components/withdraw';
 
-import { RootState } from '../store';
-
-export type StepNames =
-  | 'createWallet'
-  | 'openWalletAndTransactions'
-  | 'depositFunds'
-  | 'withdrawFunds'
-  | 'succesfulWithdraw';
-
-interface StepConfig<StateType, StepNames extends string> {
-  canAdvance?: (currentState: StateType) => boolean;
-  choices: Partial<Record<StepNames, { when?: (currentState: StateType) => boolean }>>;
+export enum ContentViewE {
+  Welcome = 'Welcome',
+  Wallet = 'Wallet',
+  Deposit = 'Deposit',
+  Withdraw = 'Withdraw',
+  SuccessWithdraw = 'Success',
 }
 
-interface StateMachineConfig<StateType, StepNames extends string> {
-  initialStep: StepNames | (() => StepNames);
-  steps: Record<StepNames, StepConfig<StateType, StepNames>>;
-  views: Record<StepNames, React.ComponentType>;
+export const contentViews = {
+  [ContentViewE.Welcome]: Welcome,
+  [ContentViewE.Wallet]: Wallet,
+  [ContentViewE.Deposit]: Deposit,
+  [ContentViewE.Withdraw]: Withdraw,
+  [ContentViewE.SuccessWithdraw]: SuccessWithdraw,
+};
+
+export interface Transaction {
+  direction: 'reseived' | 'sent';
+  confirmed: boolean;
+  addressFrom: string;
+  amount: number;
 }
 
-export const stateMachineConfig = {
-  initialStep: 'createWallet',
-  steps: {
-    createWallet: {
-      choices: {
-        openWalletAndTransactions: {
-          when: (state) => state.wallet !== null,
-        },
-      },
-    },
-    openWalletAndTransactions: {
-      choices: {
-        depositFunds: {},
-        withdrawFunds: {},
-      },
-    },
-    depositFunds: {
-      choices: {
-        openWalletAndTransactions: {},
-      },
-    },
-    withdrawFunds: {
-      choices: {
-        succesfulWithdraw: {},
-        openWalletAndTransactions: {},
-      },
-    },
-    succesfulWithdraw: {
-      choices: {},
-    },
-  },
-  views: {
-    createWallet: Welcome,
-    openWalletAndTransactions: Wallet,
-    depositFunds: Deposit,
-    withdrawFunds: Withdraw,
-    succesfulWithdraw: SuccessWithdraw,
-  },
-} satisfies StateMachineConfig<RootState, StepNames>;
+// interface StepConfig<StateType, StepNames extends string> {
+//   canAdvance?: (currentState: StateType) => boolean;
+//   choices: Partial<Record<StepNames, { when?: (currentState: StateType) => boolean }>>;
+// }
+
+// interface StateMachineConfig<StateType, StepNames extends string> {
+//   initialStep: ContentViewE;
+//   steps: Record<ContentViewE, StepConfig<StateType, ContentViewE>>;
+// }
+
+// export const stateMachineConfig = {
+//   initialStep: ContentViewE.Welcome,
+//   steps: {
+//     [ContentViewE.Welcome]: {
+//       choices: {
+//         [ContentViewE.Wallet]: {
+//           when: (state) => state.wallet !== null,
+//         },
+//       },
+//     },
+//     openWalletAndTransactions: {
+//       choices: {
+//         depositFunds: {},
+//         withdrawFunds: {},
+//       },
+//     },
+//     depositFunds: {
+//       choices: {
+//         openWalletAndTransactions: {},
+//       },
+//     },
+//     withdrawFunds: {
+//       choices: {
+//         succesfulWithdraw: {},
+//         openWalletAndTransactions: {},
+//       },
+//     },
+//     succesfulWithdraw: {
+//       choices: {},
+//     },
+//   },
+// } satisfies StateMachineConfig<RootState, StepNames>;

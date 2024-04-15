@@ -1,44 +1,52 @@
 # Bitcoin Wallet
 
-Bitcoin Testnet Wallet: A minimalist web application built using React.js, Next.js, and Redux Toolkit. This app provides functionalities for users to create a Bitcoin address, view a list of transactions, and send a specified amount of bitcoins to a designated address.
+**Bitcoin Wallet** is a minimalist yet powerful web application designed for interacting with the Bitcoin Testnet. Built using modern web technologies such as React.js, Next.js, and Redux Toolkit, this application allows users to effortlessly create a Bitcoin address, manage and view transactions, and send bitcoins to specific addresses.
 
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+## Links and Recources
 
-## Getting Started
+- **Design Resources:**: [Figma Designs](https://www.figma.com/file/yi9IptRTSWss5zF8ETC3u2/HH-Test-Bitcoin-Wallet?type=design&node-id=0-1&mode=design)
+- **Repository**: [GitHub Repository](https://github.com/Kotkoa/bitcoin-wallet)
+- **Live Deployment**: [Not ready yet]()
 
-First, run the development server:
+## What Can You Do Here?
+
+With **Bitcoin Wallet**, you can:
+
+- **Generate a new Bitcoin address** securely to receive funds.
+- **View a detailed list of transactions** associated with your wallet, helping you track incoming and outgoing funds.
+- **Send bitcoins** to another address with ease, directly through the user interface.
+- **Deposit bitcoins** to your wallet by copying the address and sending funds from another wallet.
+- **View the balance** of your wallet in bitcoins and USD, updated in real-time.
+
+## Technologies Behind the Magic
+
+This application leverages:
+
+- **React.js and Next.js**: For a responsive and server-side rendered user experience.
+- **Redux Toolkit**: For efficient and scalable state management across the app.
+- **BitcoinJS-Lib**: A popular and comprehensive JavaScript library for managing Bitcoin transactions.
+- **Modules CSS**: For styling components in a modular and maintainable way.
+
+## Quick Start
+
+To get started with this project, clone the repository and install its dependencies:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/Kotkoa/bitcoin-wallet.git
+cd bitcoin-wallet
+yarn install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Once the dependencies are installed, you can start the development server by running:
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+```bash
+yarn dev
+```
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+Open http://localhost:3000 in your browser to see the application in action.
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+## Deployment
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+This application is designed to be deployed on platforms like Vercel, which seamlessly integrates with Next.js projects. Check out the Next.js deployment documentation for detailed steps on how to deploy this app.
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Thank you for visiting the Bitcoin Wallet repository, and your contributions and feedback are highly appreciated!

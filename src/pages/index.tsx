@@ -1,20 +1,10 @@
-// import { useState } from 'react';
-// import { useDispatch, useSelector } from 'react-redux';
-
 import Head from 'next/head';
 
 import { Avatar } from '@/components/avatar';
 import { Content } from '@/components/content-wizard';
 import styles from '@/styles/Home.module.css';
-import { ContentTypeE } from '@/types/types';
-
-// import { decrement, increment, incrementByAmount, selectCount } from '../redusers/counterSlice';
 
 export default function Home() {
-  // const count = useSelector(selectCount);
-  // const dispatch = useDispatch();
-  // const [incrementAmount, setIncrementAmount] = useState('2');
-
   return (
     <>
       <Head>
@@ -26,7 +16,7 @@ export default function Home() {
       <main className={styles.main}>
         <div className={styles.wrapper}>
           <Avatar />
-          <Content currentView={ContentTypeE.SuccessWithdraw} />
+          <Content />
         </div>
       </main>
     </>
