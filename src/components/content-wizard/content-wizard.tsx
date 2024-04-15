@@ -8,10 +8,10 @@ import { Wallet } from '../wallet';
 import { Welcome } from '../welcome';
 import { Withdraw } from '../withdraw';
 
-import styles from './content.module.css';
+import styles from './content-wizard.module.css';
 
 interface ContentProps {
-  view: ContentTypeE;
+  currentView: ContentTypeE;
 }
 
 const contentViews = {
@@ -22,6 +22,6 @@ const contentViews = {
   [ContentTypeE.SuccessWithdraw]: <SuccessWithdraw />,
 };
 
-export const Content: FC<ContentProps> = ({ view }) => {
+export const ContentWizard: FC<ContentProps> = ({ currentView: view }) => {
   return <div className={styles.contentWrapper}>{contentViews[view]}</div>;
 };

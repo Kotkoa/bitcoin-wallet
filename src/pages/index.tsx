@@ -4,7 +4,7 @@
 import Head from 'next/head';
 
 import { Avatar } from '@/components/avatar';
-import { Content } from '@/components/content';
+import { Content } from '@/components/content-wizard';
 import styles from '@/styles/Home.module.css';
 import { ContentTypeE } from '@/types/types';
 
@@ -26,7 +26,7 @@ export default function Home() {
       <main className={styles.main}>
         <div className={styles.wrapper}>
           <Avatar />
-          <Content view={ContentTypeE.Wallet} />
+          <Content currentView={ContentTypeE.SuccessWithdraw} />
         </div>
       </main>
     </>

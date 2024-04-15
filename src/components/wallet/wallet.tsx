@@ -1,5 +1,6 @@
 import type { FC } from 'react';
 
+import { DocumentDuplicateIcon } from '@heroicons/react/24/outline';
 import { ArrowLeftCircleIcon } from '@heroicons/react/24/solid';
 import { PaperAirplaneIcon } from '@heroicons/react/24/solid';
 
@@ -18,7 +19,12 @@ export const Wallet: FC = () => {
       <h1 className={styles.paragraph}>{ContentTypeE.Wallet}</h1>
       <div className={styles.row}>
         <p className={styles.header}>bc1qxy...hx0wlh</p>
-        <button>copy to</button>
+        <Button
+          label=""
+          icon={<DocumentDuplicateIcon width={24} height={24} />}
+          onClick={() => {}}
+          className={styles.buttonCopy}
+        />
       </div>
       <p className={styles.fundsValue}>0 BTC</p>
       <div className={styles.row}>
