@@ -21,7 +21,6 @@ export const ContentWizard: FC = () => {
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const addressFromLocalStorage = localStorage.getItem(LocalStorageE.walletAddress);
-      console.log(addressFromLocalStorage);
       const privateKeyFromLocalStorage = localStorage.getItem(LocalStorageE.privateKey);
 
       if (addressFromLocalStorage && !address) {

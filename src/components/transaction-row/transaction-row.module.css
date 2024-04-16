@@ -4,6 +4,15 @@
   align-items: center;
   width: 100%;
   gap: 10px;
+  margin-top: 10px;
+
+  cursor: pointer;
+  text-decoration: none;
+  color: inherit;
+}
+
+.transactionRoot:hover {
+  background-color: #242424;
 }
 
 .paragraph {
@@ -56,6 +65,7 @@
   flex: 1;
 }
 
-.amountBlock {
+.amountBlockRecieved {
   justify-self: flex-end;
+  color: #31d158;
 }

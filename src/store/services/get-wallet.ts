@@ -16,7 +16,7 @@ export const createWallet = () => {
       pubkey: keyPair.publicKey,
       network: TESTNET,
     });
-    const privateKey = keyPair.toWIF(); // Get the private key in Wallet Import Format
+    const privateKey = keyPair.toWIF();
 
     if (address) {
       localStorage.setItem('walletAddress', address);

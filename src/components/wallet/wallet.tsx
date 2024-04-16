@@ -1,13 +1,18 @@
-import { type FC, useEffect } from 'react';
+import { type FC } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { DocumentDuplicateIcon } from '@heroicons/react/24/outline';
 import { ArrowLeftCircleIcon } from '@heroicons/react/24/solid';
 import { PaperAirplaneIcon } from '@heroicons/react/24/solid';
 
-import { setBalance, setCurrentView, setTransactions } from '@/store/features/walletSlice';
+import {
+  //setBalance,
+  setCurrentView,
+  //setTransactions
+} from '@/store/features/walletSlice';
 import { ContentViewE, Transaction } from '@/store/models/state-machine.types';
-import { fetchBalance, fetchTransactions } from '@/store/services/get-transactions';
+import { useGetBalanceQuery, useGetTransactionsQuery } from '@/store/services/query';
+// import { fetchBalance, fetchTransactions } from '@/store/services/get-transactions';
 import { RootState } from '@/store/store';
 
 import { Button } from '../button';
@@ -16,38 +21,30 @@ import { TransactionRow } from '../transaction-row';
 
 import styles from './wallet.module.css';
 
+const pollingInterval = 10000; // 10 seconds
+
 export const Wallet: FC = () => {
   const dispatch = useDispatch();
   const address = useSelector((state: RootState) => state.wallet.address);
-  const privatKey = useSelector((state: RootState) => state.wallet.privateKey);
-  const balance = useSelector((state: RootState) => state.wallet.balance);
-  const transactions = useSelector((state: RootState) => state.wallet.transactions);
 
-  const isNoTransactions = !transactions.length;
+  const { data: transactions, error: transactionsError } = useGetTransactionsQuery(address, {
+    pollingInterval,
+    skip: !address,
+  });
 
-  useEffect(() => {
-    if (address && privatKey) {
-      fetchTransactions(address)
-        .then((transactions) => {
-          dispatch(setTransactions(transactions));
-        })
-        .catch((error) => {
-          console.error('Failed to fetch transactions:', error);
-        });
-    }
-  }, [address, dispatch, privatKey]);
+  if (transactionsError) {
+    console.error('Failed to fetch transactions:', transactionsError);
+  }
 
-  useEffect(() => {
-    if (address) {
-      fetchBalance(address)
-        .then((data) => {
-          dispatch(setBalance(data));
-        })
-        .catch((error) => {
-          console.error('Failed to fetch transactions:', error);
-        });
-    }
-  }, [address, dispatch]);
+  const { data: balance, error: balanceError } = useGetBalanceQuery(address, {
+    skip: !address,
+  });
+
+  if (balanceError) {
+    console.error('Failed to fetch balance:', balanceError);
+  }
+
+  const isNoTransactions = !transactions || transactions.length === 0;
 
   const copyToClipboard = () => {
     if (!address) return;
@@ -94,9 +91,10 @@ export const Wallet: FC = () => {
         {isNoTransactions && (
           <p className={styles.paragraph}>No transactions found, please send some BTC</p>
         )}
-        {transactions.map((transaction: Transaction) => (
-          <TransactionRow key={transaction.txid} transaction={transaction} />
-        ))}
+        {transactions &&
+          transactions.map((transaction: Transaction) => (
+            <TransactionRow key={transaction.txid} transaction={transaction} />
+          ))}
       </InnerWrapper>
     </>
   );
