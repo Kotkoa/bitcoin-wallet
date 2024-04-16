@@ -20,9 +20,48 @@ export const contentViews = {
   [ContentViewE.SuccessWithdraw]: SuccessWithdraw,
 };
 
+// export interface Transaction {
+//   direction: 'reseived' | 'sent';
+//   confirmed: boolean;
+//   addressFrom: string;
+//   amount: number;
+// }
+
+interface APIVin {
+  txid: string;
+  vout: number;
+  prevout: {
+    scriptpubkey_address: string;
+    value: number; // In satoshis
+  };
+  scriptsig: string;
+  scriptsig_asm: string;
+  witness: string[];
+  is_coinbase: boolean;
+  sequence: number;
+}
+
+interface APIVout {
+  scriptpubkey: string;
+  scriptpubkey_asm: string;
+  scriptpubkey_type: string;
+  scriptpubkey_address: string;
+  value: number; // In satoshis
+}
+
 export interface Transaction {
-  direction: 'reseived' | 'sent';
-  confirmed: boolean;
-  addressFrom: string;
-  amount: number;
+  txid: string;
+  version: number;
+  locktime: number;
+  vin: APIVin[];
+  vout: APIVout[];
+  size: number;
+  weight: number;
+  fee: number;
+  status: {
+    confirmed: boolean;
+    block_height: number;
+    block_hash: string;
+    block_time: number;
+  };
 }

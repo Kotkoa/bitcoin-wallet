@@ -45,12 +45,21 @@ const walletSlice = createSlice({
     setBalance(state, action: PayloadAction<number>) {
       state.balance = action.payload;
     },
+    setTransactions(state, action: PayloadAction<Transaction[]>) {
+      state.transactions = action.payload;
+    },
     addTransaction(state, action: PayloadAction<Transaction>) {
       state.transactions.push(action.payload);
     },
   },
 });
 
-export const { setCurrentView, setAddress, setPrivatKey, setBalance, addTransaction } =
-  walletSlice.actions;
+export const {
+  setCurrentView,
+  setAddress,
+  setPrivatKey,
+  setBalance,
+  setTransactions,
+  addTransaction,
+} = walletSlice.actions;
 export default walletSlice.reducer;

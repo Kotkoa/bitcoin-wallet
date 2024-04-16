@@ -1,0 +1,61 @@
+.transactionRoot {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  gap: 10px;
+}
+
+.paragraph {
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 19.36px;
+}
+
+.textAdderss {
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 14.52px;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.check {
+  color: #31d158;
+}
+
+.iconWrapper {
+  min-width: 40px;
+  height: 40px;
+  background-color: #ffffff;
+  border-radius: 50%;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  & > svg {
+    color: #000000;
+  }
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+
+  flex: 1;
+}
+
+.amountBlock {
+  justify-self: flex-end;
+}

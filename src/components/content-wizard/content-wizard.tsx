@@ -15,6 +15,8 @@ import styles from './content-wizard.module.css';
 export const ContentWizard: FC = () => {
   const dispatch = useDispatch();
   const currentView = useSelector((state: RootState) => state.wallet.currentView);
+  const address = useSelector((state: RootState) => state.wallet.address);
+  const privatKey = useSelector((state: RootState) => state.wallet.privateKey);
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -22,18 +24,18 @@ export const ContentWizard: FC = () => {
       console.log(addressFromLocalStorage);
       const privateKeyFromLocalStorage = localStorage.getItem(LocalStorageE.privateKey);
 
-      if (addressFromLocalStorage) {
+      if (addressFromLocalStorage && !address) {
         dispatch(setAddress(addressFromLocalStorage));
       }
-      if (privateKeyFromLocalStorage) {
+      if (privateKeyFromLocalStorage && !privatKey) {
         dispatch(setPrivatKey(privateKeyFromLocalStorage));
       }
-      console.log('currentView', currentView, 'addressFromLocalStorage', addressFromLocalStorage);
+
       if (addressFromLocalStorage && currentView === ContentViewE.Welcome) {
         dispatch(setCurrentView(ContentViewE.Wallet));
       }
     }
-  }, [currentView, dispatch]);
+  }, [address, currentView, dispatch, privatKey]);
 
   if (!currentView) {
     console.error(`No view available for state: ${currentView}`);
