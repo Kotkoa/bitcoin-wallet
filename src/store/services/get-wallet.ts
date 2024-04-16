@@ -18,9 +18,6 @@ export const createWallet = () => {
     });
     const privateKey = keyPair.toWIF(); // Get the private key in Wallet Import Format
 
-    console.log('New Bitcoin Address:', address);
-    console.log('Private Key:', privateKey);
-
     if (address) {
       localStorage.setItem('walletAddress', address);
       localStorage.setItem('privateKey', privateKey);

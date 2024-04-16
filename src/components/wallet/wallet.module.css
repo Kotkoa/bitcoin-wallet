@@ -3,10 +3,10 @@
   font-weight: 700;
   line-height: 36.31px;
 
-  width: 60%; /* Set the width of the header to 60% of its container */
-  overflow: hidden; /* Prevent text from overflowing */
-  text-overflow: ellipsis; /* Add ellipsis when text overflows */
-  white-space: nowrap; /* Keep the text on a single line */
+  width: 60%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .paragraph {

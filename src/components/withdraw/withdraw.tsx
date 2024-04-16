@@ -13,7 +13,7 @@ export const Withdraw: FC = () => {
   const [funds, setFunds] = useState('0,007');
 
   return (
-    <div>
+    <>
       <h1 className={styles.header}>Send BTC</h1>
       <InnerWrapper>
         <Input
@@ -43,6 +43,6 @@ export const Withdraw: FC = () => {
           />
         </div>
       </InnerWrapper>
-    </div>
+    </>
   );
 };

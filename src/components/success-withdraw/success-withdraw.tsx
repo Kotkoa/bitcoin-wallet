@@ -7,7 +7,7 @@ import styles from './success-withdraw.module.css';
 
 export const SuccessWithdraw: FC = () => {
   return (
-    <div>
+    <>
       <h1 className={styles.header}>Success !</h1>
       <InnerWrapper>
         <p className={styles.paragraph}>Bitcoins sent!</p>
@@ -15,6 +15,6 @@ export const SuccessWithdraw: FC = () => {
         <p className={styles.fromAddress}>bc1qxy...hx0wlh</p>
         <Button label="Back" onClick={() => {}} />
       </InnerWrapper>
-    </div>
+    </>
   );
 };

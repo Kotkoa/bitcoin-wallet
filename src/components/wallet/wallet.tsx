@@ -1,4 +1,4 @@
-import { type FC, useEffect, useState } from 'react';
+import { type FC } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { DocumentDuplicateIcon } from '@heroicons/react/24/outline';
@@ -20,7 +20,6 @@ export const Wallet: FC = () => {
   const balance = useSelector((state: RootState) => state.wallet.balance);
   const transactions = useSelector((state: RootState) => state.wallet.transactions);
 
-  const [isClient, setIsClient] = useState(false);
   const isNoTransactions = !transactions.length;
 
   const copyToClipboard = () => {
@@ -35,12 +34,6 @@ export const Wallet: FC = () => {
   const handleDepositFunds = () => {
     dispatch(setCurrentView(ContentViewE.Deposit));
   };
-
-  useEffect(() => {
-    setIsClient(true);
-  }, []);
-
-  if (!isClient) return <div>Loading...</div>;
 
   return (
     <>

@@ -3,8 +3,8 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { ContentViewE, Transaction } from '../models/state-machine.types';
 
 interface WalletState {
-  currentView: ContentViewE;
-  address: string | null | undefined;
+  currentView: ContentViewE | null;
+  address: string | null;
   privateKey: string | null;
   balance: number;
   transactions: Transaction[];
@@ -15,33 +15,10 @@ export const LocalStorageE = {
   privateKey: 'privateKey',
 };
 
-const loadWalletAddress = (): string | null => {
-  if (typeof window !== 'undefined') {
-    const localData = localStorage.getItem(LocalStorageE.walletAddress);
-    console.log('localData', localData);
-    return localData;
-  } else {
-    return null;
-  }
-};
-
-const loadPrivateKey = (): string | null => {
-  if (typeof window !== 'undefined') {
-    const localData = localStorage.getItem(LocalStorageE.privateKey);
-    return localData;
-  } else {
-    return null;
-  }
-};
-
-const walletAddress = loadWalletAddress();
-const privateKey = loadPrivateKey();
-const isAddressExist = walletAddress !== null;
-
 const initialState: WalletState = {
-  currentView: isAddressExist ? ContentViewE.Wallet : ContentViewE.Welcome,
-  address: walletAddress,
-  privateKey: privateKey,
+  currentView: ContentViewE.Welcome,
+  address: null,
+  privateKey: null,
   balance: 0,
   transactions: [],
 };
@@ -55,11 +32,15 @@ const walletSlice = createSlice({
     },
     setAddress(state, action: PayloadAction<string>) {
       state.address = action.payload;
-      localStorage.setItem(LocalStorageE.walletAddress, action.payload);
+      if (action.payload) {
+        localStorage.setItem(LocalStorageE.walletAddress, action.payload);
+      }
     },
     setPrivatKey(state, action: PayloadAction<string>) {
       state.privateKey = action.payload;
-      localStorage.setItem(LocalStorageE.privateKey, action.payload);
+      if (action.payload) {
+        localStorage.setItem(LocalStorageE.privateKey, action.payload);
+      }
     },
     setBalance(state, action: PayloadAction<number>) {
       state.balance = action.payload;
