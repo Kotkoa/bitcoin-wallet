@@ -6,7 +6,7 @@
 
 - **Design Resources:**: [Figma Designs](https://www.figma.com/file/yi9IptRTSWss5zF8ETC3u2/HH-Test-Bitcoin-Wallet?type=design&node-id=0-1&mode=design)
 - **Repository**: [GitHub Repository](https://github.com/Kotkoa/bitcoin-wallet)
-- **Live Deployment**: [Not ready yet]()
+- **Live Deployment**: [Bitcoin Wallet](https://bitcoin-wallet-phi.vercel.app/)
 
 ## What Can You Do Here?
 
