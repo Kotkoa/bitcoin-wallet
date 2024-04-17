@@ -5,46 +5,32 @@ import { DocumentDuplicateIcon } from '@heroicons/react/24/outline';
 import { ArrowLeftCircleIcon } from '@heroicons/react/24/solid';
 import { PaperAirplaneIcon } from '@heroicons/react/24/solid';
 
-import {
-  //setBalance,
-  setCurrentView,
-  //setTransactions
-} from '@/store/features/walletSlice';
-import { ContentViewE, Transaction } from '@/store/models/state-machine.types';
-import { useGetBalanceQuery, useGetTransactionsQuery } from '@/store/services/query';
-// import { fetchBalance, fetchTransactions } from '@/store/services/get-transactions';
+import { setBalance, setCurrentView } from '@/store/features/walletSlice';
+import { ContentViewE } from '@/store/models/state-machine.types';
+import { useGetBalanceQuery } from '@/store/services/query';
 import { RootState } from '@/store/store';
 
 import { Button } from '../button';
 import { InnerWrapper } from '../inner-wrapper';
-import { TransactionRow } from '../transaction-row';
+import { TransactionList } from '../transsaction-list';
 
 import styles from './wallet.module.css';
-
-const pollingInterval = 10000; // 10 seconds
 
 export const Wallet: FC = () => {
   const dispatch = useDispatch();
   const address = useSelector((state: RootState) => state.wallet.address);
 
-  const { data: transactions, error: transactionsError } = useGetTransactionsQuery(address, {
-    pollingInterval,
-    skip: !address,
-  });
-
-  if (transactionsError) {
-    console.error('Failed to fetch transactions:', transactionsError);
-  }
-
   const { data: balance, error: balanceError } = useGetBalanceQuery(address, {
     skip: !address,
   });
 
+  if (balance) {
+    dispatch(setBalance(balance));
+  }
+
   if (balanceError) {
     console.error('Failed to fetch balance:', balanceError);
   }
-
-  const isNoTransactions = !transactions || transactions.length === 0;
 
   const copyToClipboard = () => {
     if (!address) return;
@@ -88,13 +74,7 @@ export const Wallet: FC = () => {
         <div className={styles.rowAlignLeft}>
           <h2 className={styles.headerSecondary}>Transaction history</h2>
         </div>
-        {isNoTransactions && (
-          <p className={styles.paragraph}>No transactions found, please send some BTC</p>
-        )}
-        {transactions &&
-          transactions.map((transaction: Transaction) => (
-            <TransactionRow key={transaction.txid} transaction={transaction} />
-          ))}
+        <TransactionList walletAddress={address} />
       </InnerWrapper>
     </>
   );

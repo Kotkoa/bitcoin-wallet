@@ -18,11 +18,6 @@ export const createWallet = () => {
     });
     const privateKey = keyPair.toWIF();
 
-    if (address) {
-      localStorage.setItem('walletAddress', address);
-      localStorage.setItem('privateKey', privateKey);
-    }
-
     return { address, privateKey };
   } catch (error) {
     console.error('Error creating wallet:', error);

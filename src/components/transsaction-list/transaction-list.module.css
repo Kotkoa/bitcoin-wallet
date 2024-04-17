@@ -1,0 +1,13 @@
+.paragraph {
+  margin-top: 10px;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 19.36px;
+}
+
+.error {
+  color: red;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 16.94px;
+}

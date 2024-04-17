@@ -16,10 +16,18 @@ export const api = createApi({
     }),
     getBalance: builder.query<number, string>({
       query: (address) => `address/${address}`,
-      transformResponse: (response: { chain_stats: { funded_txo_sum: number } }) =>
-        response.chain_stats.funded_txo_sum / SATOSHY,
+      transformResponse: (response: { chain_stats: { funded_txo_sum: number } }) => {
+        const balance = response.chain_stats.funded_txo_sum / SATOSHY;
+        return balance;
+      },
+    }),
+    getTransactionInfo: builder.query<Record<string, string>, string>({
+      query: (txid) => `tx/${txid}`,
+      transformResponse: (response: Record<string, string>) => {
+        return response;
+      },
     }),
   }),
 });
 
-export const { useGetTransactionsQuery, useGetBalanceQuery } = api;
+export const { useGetTransactionsQuery, useGetBalanceQuery, useGetTransactionInfoQuery } = api;

@@ -1,13 +1,12 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import { ContentViewE, Transaction } from '../models/state-machine.types';
+import { ContentViewE } from '../models/state-machine.types';
 
 interface WalletState {
   currentView: ContentViewE | null;
   address: string;
   privateKey: string | null;
   balance: number;
-  transactions: Transaction[];
 }
 
 export const LocalStorageE = {
@@ -20,7 +19,6 @@ const initialState: WalletState = {
   address: '',
   privateKey: null,
   balance: 0,
-  transactions: [],
 };
 
 const walletSlice = createSlice({
@@ -45,21 +43,8 @@ const walletSlice = createSlice({
     setBalance(state, action: PayloadAction<number>) {
       state.balance = action.payload;
     },
-    setTransactions(state, action: PayloadAction<Transaction[]>) {
-      state.transactions = action.payload;
-    },
-    addTransaction(state, action: PayloadAction<Transaction>) {
-      state.transactions.push(action.payload);
-    },
   },
 });
 
-export const {
-  setCurrentView,
-  setAddress,
-  setPrivatKey,
-  setBalance,
-  setTransactions,
-  addTransaction,
-} = walletSlice.actions;
+export const { setCurrentView, setAddress, setPrivatKey, setBalance } = walletSlice.actions;
 export default walletSlice.reducer;

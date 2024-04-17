@@ -1,7 +1,12 @@
 import type { FC } from 'react';
 import { useDispatch } from 'react-redux';
 
-import { setAddress, setCurrentView, setPrivatKey } from '@/store/features/walletSlice';
+import {
+  LocalStorageE,
+  setAddress,
+  setCurrentView,
+  setPrivatKey,
+} from '@/store/features/walletSlice';
 import { ContentViewE } from '@/store/models/state-machine.types';
 import { createWallet } from '@/store/services/get-wallet';
 
@@ -17,6 +22,10 @@ export const Welcome: FC = () => {
     const data = createWallet();
     if (data && data.address) {
       const { address, privateKey } = data;
+
+      localStorage.setItem(LocalStorageE.walletAddress, address);
+      localStorage.setItem(LocalStorageE.walletAddress, privateKey);
+
       dispatch(setAddress(address));
       dispatch(setPrivatKey(privateKey));
       dispatch(setCurrentView(ContentViewE.Wallet));
