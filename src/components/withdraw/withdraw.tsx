@@ -1,8 +1,10 @@
 import { type FC, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { PaperAirplaneIcon } from '@heroicons/react/24/solid';
 
+import { setCurrentView } from '@/store/features/walletSlice';
+import { ContentViewE } from '@/store/models/state-machine.types';
 import { RootState } from '@/store/store';
 
 import { Button } from '../button';
@@ -12,10 +14,15 @@ import { Input } from '../input';
 import styles from './withdraw.module.css';
 
 export const Withdraw: FC = () => {
+  const dispatch = useDispatch();
   const [recipientAddress, setrRcipientAddress] = useState('');
   const [sendAmount, setSendAmount] = useState('0');
   const address = useSelector((state: RootState) => state.wallet.address);
   const balance = useSelector((state: RootState) => state.wallet.balance);
+
+  const handleChangeView = () => {
+    dispatch(setCurrentView(ContentViewE.SuccessWithdraw));
+  };
 
   return (
     <>
@@ -44,7 +51,7 @@ export const Withdraw: FC = () => {
             label="Send"
             icon={<PaperAirplaneIcon width={24} height={24} />}
             iconPlacement="right"
-            onClick={() => {}}
+            onClick={handleChangeView}
           />
         </div>
       </InnerWrapper>

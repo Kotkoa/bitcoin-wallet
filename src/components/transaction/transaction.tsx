@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { ArrowUpCircleIcon, CheckBadgeIcon } from '@heroicons/react/24/solid';
 
 import { Transaction } from '@/store/models/state-machine.types';
-import { SATOSHY, useGetTransactionInfoQuery } from '@/store/services/query';
+import { SATOSHY } from '@/store/services/query';
 import { RootState } from '@/store/store';
 
 import styles from './transaction.module.css';
@@ -15,10 +15,6 @@ interface TransactionProps {
 
 export const TransactionRow: FC<TransactionProps> = ({ transaction }) => {
   const address = useSelector((state: RootState) => state.wallet.address);
-
-  const { data: transactionInfo } = useGetTransactionInfoQuery(transaction.txid);
-
-  console.log(transactionInfo);
 
   const addressFrom = transaction.vout.filter((vout) => vout.scriptpubkey_address !== address)[0]
     .scriptpubkey_address;

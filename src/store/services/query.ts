@@ -27,7 +27,24 @@ export const api = createApi({
         return response;
       },
     }),
+    sendTransaction: builder.mutation<void, { txid: string; hex: string }>({
+      query: ({ txid, hex }) => ({
+        url: `tx/${txid}`,
+        method: 'POST',
+        body: { hex },
+      }),
+      transformResponse: (baseQueryReturnValue: unknown) => {
+        const data = JSON.parse(baseQueryReturnValue as string);
+        console.log('Processed data:', data);
+        return data;
+      },
+    }),
   }),
 });
 
-export const { useGetTransactionsQuery, useGetBalanceQuery, useGetTransactionInfoQuery } = api;
+export const {
+  useGetTransactionsQuery,
+  useGetBalanceQuery,
+  useGetTransactionInfoQuery,
+  useSendTransactionMutation,
+} = api;

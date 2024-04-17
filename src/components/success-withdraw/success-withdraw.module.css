@@ -23,4 +23,9 @@
   font-weight: 700;
   line-height: 29.05px;
   margin-bottom: 10px;
+
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
