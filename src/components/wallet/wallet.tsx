@@ -1,4 +1,4 @@
-import { type FC } from 'react';
+import { type FC, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { DocumentDuplicateIcon } from '@heroicons/react/24/outline';
@@ -23,14 +23,17 @@ export const Wallet: FC = () => {
   const { data: balance, error: balanceError } = useGetBalanceQuery(address, {
     skip: !address,
   });
+  useEffect(() => {
+    if (balance) {
+      dispatch(setBalance(balance));
+    }
+  }, [balance, dispatch]);
 
-  if (balance) {
-    dispatch(setBalance(balance));
-  }
-
-  if (balanceError) {
-    console.error('Failed to fetch balance:', balanceError);
-  }
+  useEffect(() => {
+    if (balanceError) {
+      console.error('Failed to fetch balance:', balanceError);
+    }
+  }, [balanceError]);
 
   const copyToClipboard = () => {
     if (!address) return;
