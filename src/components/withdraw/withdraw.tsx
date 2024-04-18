@@ -3,8 +3,10 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { PaperAirplaneIcon } from '@heroicons/react/24/solid';
 
+// import { createTransaction } from '@/hooks/create-transaction';
 import { setCurrentView } from '@/store/features/walletSlice';
 import { ContentViewE } from '@/store/models/state-machine.types';
+import { useGetTransactionsQuery } from '@/store/services/query';
 import { RootState } from '@/store/store';
 
 import { Button } from '../button';
@@ -15,12 +17,29 @@ import styles from './withdraw.module.css';
 
 export const Withdraw: FC = () => {
   const dispatch = useDispatch();
-  const [recipientAddress, setrRcipientAddress] = useState('');
+  const [recipientAddress, setrRcipientAddress] = useState(
+    'tb1qlj64u6fqutr0xue85kl55fx0gt4m4urun25p7q'
+  );
   const [sendAmount, setSendAmount] = useState('0');
-  const address = useSelector((state: RootState) => state.wallet.address);
+  const myAddress = useSelector((state: RootState) => state.wallet.address);
   const balance = useSelector((state: RootState) => state.wallet.balance);
+  // const privateKey = useSelector((state: RootState) => state.wallet.privateKey);
+
+  const { data: utxos } = useGetTransactionsQuery(myAddress);
+  console.log(utxos);
+  // const {} = useSendTransactionMutation();
 
   const handleChangeView = () => {
+    // if (utxos) {
+    //   const rawTx = createTransaction({
+    //     myAddress,
+    //     privateKey,
+    //     recipientAddress,
+    //     balance,
+    //     sendAmount: parseFloat(sendAmount),
+    //     utxos,
+    //   });
+    // }
     dispatch(setCurrentView(ContentViewE.SuccessWithdraw));
   };
 
@@ -42,7 +61,7 @@ export const Withdraw: FC = () => {
           }}
         />
         <div className={styles.alignLeft}>
-          <p className={styles.address}>{address}</p>
+          <p className={styles.address}>{myAddress}</p>
           <p className={styles.funds}>{sendAmount} BTC</p>
           <p className={styles.fromBalance}>From balance {balance} BTC</p>
         </div>

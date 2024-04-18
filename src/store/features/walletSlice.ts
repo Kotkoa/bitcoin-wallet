@@ -5,7 +5,7 @@ import { ContentViewE } from '../models/state-machine.types';
 interface WalletState {
   currentView: ContentViewE | null;
   address: string;
-  privateKey: string | null;
+  privateKey: string;
   balance: number;
 }
 
@@ -17,7 +17,7 @@ export const LocalStorageE = {
 const initialState: WalletState = {
   currentView: ContentViewE.Welcome,
   address: '',
-  privateKey: null,
+  privateKey: '',
   balance: 0,
 };
 

@@ -1,6 +1,7 @@
 import type { FC } from 'react';
 import { useDispatch } from 'react-redux';
 
+import { createWallet } from '@/hooks/get-wallet';
 import {
   LocalStorageE,
   setAddress,
@@ -8,7 +9,6 @@ import {
   setPrivatKey,
 } from '@/store/features/walletSlice';
 import { ContentViewE } from '@/store/models/state-machine.types';
-import { createWallet } from '@/store/services/get-wallet';
 
 import { Button } from '../button';
 import { InnerWrapper } from '../inner-wrapper';

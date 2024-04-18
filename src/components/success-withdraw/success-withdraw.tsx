@@ -10,7 +10,7 @@ import { InnerWrapper } from '../inner-wrapper';
 
 import styles from './success-withdraw.module.css';
 
-const mockFundsSent = '0.001'; //TODO: replace with real value when send will be implemented
+const mockFundsSent = '0.000001'; //TODO: replace with real value when send will be implemented
 
 export const SuccessWithdraw: FC = () => {
   const dispatch = useDispatch();
@@ -25,7 +25,7 @@ export const SuccessWithdraw: FC = () => {
       <h1 className={styles.header}>Success !</h1>
       <InnerWrapper>
         <p className={styles.paragraph}>Bitcoins sent!</p>
-        <p className={styles.funds}>{mockFundsSent} BTC</p>
+        <p className={styles.funds}>{mockFundsSent} MOCK</p>
         <p className={styles.fromAddress}>{address}</p>
         <Button label="Back" onClick={handleChangeView} />
       </InnerWrapper>

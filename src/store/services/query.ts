@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
-import { Transaction } from '../models/state-machine.types';
+import { Transaction, UTransactionI } from '../models/state-machine.types';
 
 export const SATOSHY = 100000000;
 
@@ -11,6 +11,12 @@ export const api = createApi({
     getTransactions: builder.query<Transaction[], string>({
       query: (address) => `address/${address}/txs`,
       transformResponse: (response: Transaction[]) => {
+        return response;
+      },
+    }),
+    getUnspentTransactions: builder.query<UTransactionI[], string>({
+      query: (address) => `address/${address}/utxo`,
+      transformResponse: (response: UTransactionI[]) => {
         return response;
       },
     }),
@@ -27,15 +33,14 @@ export const api = createApi({
         return response;
       },
     }),
-    sendTransaction: builder.mutation<void, { txid: string; hex: string }>({
-      query: ({ txid, hex }) => ({
-        url: `tx/${txid}`,
+    sendTransaction: builder.mutation<void, { hex: string }>({
+      query: ({ hex }) => ({
+        url: `tx`,
         method: 'POST',
         body: { hex },
       }),
       transformResponse: (baseQueryReturnValue: unknown) => {
         const data = JSON.parse(baseQueryReturnValue as string);
-        console.log('Processed data:', data);
         return data;
       },
     }),
@@ -44,6 +49,7 @@ export const api = createApi({
 
 export const {
   useGetTransactionsQuery,
+  useGetUnspentTransactionsQuery,
   useGetBalanceQuery,
   useGetTransactionInfoQuery,
   useSendTransactionMutation,

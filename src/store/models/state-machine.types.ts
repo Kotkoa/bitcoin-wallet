@@ -70,3 +70,10 @@ export interface Transaction {
   fee: number;
   status: TransactionStatus;
 }
+
+export interface UTransactionI {
+  txid: string;
+  vout: number;
+  status: TransactionStatus;
+  value: number;
+}
