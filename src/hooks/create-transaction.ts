@@ -1,7 +1,7 @@
-import ecc from '@bitcoinerlab/secp256k1';
+// import ecc from '@bitcoinerlab/secp256k1';
 import * as bitcoin from 'bitcoinjs-lib';
-import ECPairFactory from 'ecpair';
 
+// import ECPairFactory from 'ecpair';
 import { Transaction } from '@/store/models/state-machine.types';
 import { SATOSHY } from '@/store/services/query';
 
@@ -32,8 +32,8 @@ export const createTransaction: createTransactionFunction = async ({
 }) => {
   if (!privateKey || !utxos || !recipientAddress) throw new Error('Missing required parameters.');
 
-  const ECPair = ECPairFactory(ecc);
-  const keyPair = ECPair.fromWIF(privateKey, TESTNET);
+  // const ECPair = ECPairFactory(ecc);
+  // const keyPair = ECPair.fromWIF(privateKey, TESTNET);
   const sendAmountSat = Math.floor(sendAmount * SATOSHY);
   const psbt = new bitcoin.Psbt({ network: TESTNET });
 
@@ -41,23 +41,23 @@ export const createTransaction: createTransactionFunction = async ({
   const neededAmount = sendAmountSat + FEE_RATE;
   // const publickKey = keyPair.publicKey;
 
-  for (const utxo of utxos) {
-    psbt.addInput({
-      hash: utxo.txid,
-      index: utxo.vout[0].value,
-      nonWitnessUtxo: Buffer.from(utxo.txid, 'hex'),
-    });
-  }
+  // for (const utxo of utxos) {
+  //   psbt.addInput({
+  //     hash: utxo.txid,
+  //     index: utxo.vout[0].value,
+  //     nonWitnessUtxo: Buffer.from(utxo.txid, 'hex'),
+  //   });
+  // }
 
-  psbt.addOutput({
-    address: recipientAddress,
-    value: neededAmount,
-  });
+  // psbt.addOutput({
+  //   address: recipientAddress,
+  //   value: neededAmount,
+  // });
 
   // Sign all inputs with the private key
-  utxos.forEach((utxo, index) => psbt.signInput(index, keyPair));
+  // utxos.forEach((utxo, index) => psbt.signInput(index, keyPair));
 
-  psbt.finalizeAllInputs();
+  // psbt.finalizeAllInputs();
   const rawTx = psbt.extractTransaction().toHex();
 
   const sentAmount = neededAmount / SATOSHY;
