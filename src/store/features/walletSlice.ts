@@ -7,6 +7,7 @@ interface WalletState {
   address: string;
   privateKey: string;
   balance: number;
+  sentAmount: number;
 }
 
 export const LocalStorageE = {
@@ -19,6 +20,7 @@ const initialState: WalletState = {
   address: '',
   privateKey: '',
   balance: 0,
+  sentAmount: 0,
 };
 
 const walletSlice = createSlice({
@@ -43,8 +45,12 @@ const walletSlice = createSlice({
     setBalance(state, action: PayloadAction<number>) {
       state.balance = action.payload;
     },
+    setSentAmount(state, action: PayloadAction<number>) {
+      state.sentAmount = action.payload;
+    },
   },
 });
 
-export const { setCurrentView, setAddress, setPrivatKey, setBalance } = walletSlice.actions;
+export const { setCurrentView, setAddress, setPrivatKey, setBalance, setSentAmount } =
+  walletSlice.actions;
 export default walletSlice.reducer;

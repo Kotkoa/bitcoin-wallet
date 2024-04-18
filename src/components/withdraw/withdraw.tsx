@@ -3,8 +3,8 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { PaperAirplaneIcon } from '@heroicons/react/24/solid';
 
-// import { createTransaction } from '@/hooks/create-transaction';
-import { setCurrentView } from '@/store/features/walletSlice';
+import { createTransaction } from '@/hooks/create-transaction';
+import { setCurrentView, setSentAmount } from '@/store/features/walletSlice';
 import { ContentViewE } from '@/store/models/state-machine.types';
 import { useGetTransactionsQuery } from '@/store/services/query';
 import { RootState } from '@/store/store';
@@ -23,23 +23,25 @@ export const Withdraw: FC = () => {
   const [sendAmount, setSendAmount] = useState('0');
   const myAddress = useSelector((state: RootState) => state.wallet.address);
   const balance = useSelector((state: RootState) => state.wallet.balance);
-  // const privateKey = useSelector((state: RootState) => state.wallet.privateKey);
+  const privateKey = useSelector((state: RootState) => state.wallet.privateKey);
 
   const { data: utxos } = useGetTransactionsQuery(myAddress);
   console.log(utxos);
   // const {} = useSendTransactionMutation();
 
-  const handleChangeView = () => {
-    // if (utxos) {
-    //   const rawTx = createTransaction({
-    //     myAddress,
-    //     privateKey,
-    //     recipientAddress,
-    //     balance,
-    //     sendAmount: parseFloat(sendAmount),
-    //     utxos,
-    //   });
-    // }
+  const handleChangeView = async () => {
+    if (utxos) {
+      const { rawTx, sentAmount } = await createTransaction({
+        myAddress,
+        privateKey,
+        recipientAddress,
+        balance,
+        sendAmount: parseFloat(sendAmount),
+        utxos,
+      });
+      console.log('rawTx', rawTx, 'sentAmount', sentAmount);
+      dispatch(setSentAmount(sentAmount));
+    }
     dispatch(setCurrentView(ContentViewE.SuccessWithdraw));
   };
 

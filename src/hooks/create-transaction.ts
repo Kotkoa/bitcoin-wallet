@@ -14,7 +14,9 @@ interface SendTransactionProps {
   utxos: Transaction[] | undefined;
 }
 
-type createTransactionFunction = (props: SendTransactionProps) => Promise<string>;
+type createTransactionFunction = (
+  props: SendTransactionProps
+) => Promise<{ rawTx: string; sentAmount: number }>;
 
 const TESTNET = bitcoin.networks.testnet;
 // const AUCTION_PRICE = 100000;
@@ -58,5 +60,7 @@ export const createTransaction: createTransactionFunction = async ({
   psbt.finalizeAllInputs();
   const rawTx = psbt.extractTransaction().toHex();
 
-  return rawTx;
+  const sentAmount = neededAmount / SATOSHY;
+
+  return { rawTx, sentAmount };
 };
