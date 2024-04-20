@@ -60,7 +60,7 @@ export const Wallet: FC = () => {
           className={styles.buttonCopy}
         />
       </div>
-      <p className={styles.fundsValue}>{`${balance || ''} BTC`}</p>
+      <p className={styles.fundsValue}>{balance || 0} BTC</p>
       <div className={styles.row}>
         <Button
           label="Send"
