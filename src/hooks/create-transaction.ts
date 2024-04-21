@@ -1,7 +1,8 @@
-// import ecc from '@bitcoinerlab/secp256k1';
+import ecc from '@bitcoinerlab/secp256k1';
 import * as bitcoin from 'bitcoinjs-lib';
+// import bitcore from 'bitcore-lib';
+import ECPairFactory from 'ecpair';
 
-// import ECPairFactory from 'ecpair';
 import { Transaction } from '@/store/models/state-machine.types';
 import { SATOSHY } from '@/store/services/query';
 
@@ -12,6 +13,7 @@ interface SendTransactionProps {
   sendAmount: number;
   privateKey: string | null;
   utxos: Transaction[] | undefined;
+  uTxHexs: Record<string, string>;
 }
 
 type createTransactionFunction = (
@@ -19,48 +21,84 @@ type createTransactionFunction = (
 ) => Promise<{ rawTx: string; sentAmount: number }>;
 
 const TESTNET = bitcoin.networks.testnet;
-// const AUCTION_PRICE = 100000;
+
 const FEE_RATE = 400;
 
 export const createTransaction: createTransactionFunction = async ({
-  // myAddress,
+  myAddress,
   privateKey,
   recipientAddress,
-  // balance,
   sendAmount,
   utxos,
+  uTxHexs,
 }) => {
-  if (!privateKey || !utxos || !recipientAddress) throw new Error('Missing required parameters.');
+  if (!privateKey || !utxos || utxos.length === 0 || !recipientAddress) {
+    throw new Error('Missing or invalid parameters.');
+  }
 
-  // const ECPair = ECPairFactory(ecc);
-  // const keyPair = ECPair.fromWIF(privateKey, TESTNET);
-  const sendAmountSat = Math.floor(sendAmount * SATOSHY);
+  console.log(
+    'utxos',
+    utxos,
+    'uTxHexs',
+    uTxHexs,
+    'privateKey',
+    privateKey,
+    'recipientAddress',
+    recipientAddress,
+    'sendAmount',
+    sendAmount,
+    'myAddress',
+    myAddress
+  );
+
+  const keyPair = ECPairFactory(ecc).fromWIF(privateKey, TESTNET);
   const psbt = new bitcoin.Psbt({ network: TESTNET });
 
-  // const inputAmount = balance * SATOSHY;
-  const neededAmount = sendAmountSat + FEE_RATE;
-  // const publickKey = keyPair.publicKey;
+  let totalUtxoValue = 0;
 
-  // for (const utxo of utxos) {
-  //   psbt.addInput({
-  //     hash: utxo.txid,
-  //     index: utxo.vout[0].value,
-  //     nonWitnessUtxo: Buffer.from(utxo.txid, 'hex'),
-  //   });
-  // }
+  utxos.forEach((utxo) => {
+    const rawTxHex = uTxHexs[utxo.txid];
 
-  // psbt.addOutput({
-  //   address: recipientAddress,
-  //   value: neededAmount,
-  // });
+    if (rawTxHex) {
+      psbt.addInput({
+        hash: utxo.txid,
+        index: 0,
+        nonWitnessUtxo: Buffer.from(rawTxHex, 'hex'),
+      });
 
-  // Sign all inputs with the private key
-  // utxos.forEach((utxo, index) => psbt.signInput(index, keyPair));
+      totalUtxoValue += utxo.vout[0].value;
+    }
+  });
 
-  // psbt.finalizeAllInputs();
+  const totalNeeded = sendAmount * SATOSHY + FEE_RATE;
+
+  if (totalNeeded > totalUtxoValue) {
+    throw new Error('Insufficient funds.');
+  }
+
+  psbt.addOutput({
+    address: recipientAddress,
+    value: Math.floor(sendAmount * SATOSHY),
+  });
+
+  const changeValue = totalUtxoValue - totalNeeded;
+
+  if (changeValue > 0) {
+    psbt.addOutput({
+      address: myAddress,
+      value: changeValue,
+    });
+  }
+
+  utxos.forEach((_, index) => {
+    psbt.signInput(index, keyPair);
+  });
+
+  psbt.finalizeAllInputs();
+
   const rawTx = psbt.extractTransaction().toHex();
 
-  const sentAmount = neededAmount / SATOSHY;
+  const sentAmount = totalNeeded / SATOSHY;
 
   return { rawTx, sentAmount };
 };

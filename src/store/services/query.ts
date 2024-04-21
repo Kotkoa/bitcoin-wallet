@@ -33,6 +33,12 @@ export const api = createApi({
         return response;
       },
     }),
+    getTransactionHex: builder.query<string, string>({
+      query: (txid) => `tx/${txid}/hex`,
+      transformResponse: (response: string) => {
+        return response;
+      },
+    }),
     sendTransaction: builder.mutation<void, { hex: string }>({
       query: ({ hex }) => ({
         url: `tx`,
@@ -53,4 +59,5 @@ export const {
   useGetBalanceQuery,
   useGetTransactionInfoQuery,
   useSendTransactionMutation,
+  useGetTransactionHexQuery,
 } = api;

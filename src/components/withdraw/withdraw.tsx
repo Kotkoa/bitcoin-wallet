@@ -1,11 +1,12 @@
-import { type FC, useState } from 'react';
+import { type FC, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { PaperAirplaneIcon } from '@heroicons/react/24/solid';
 
 import { createTransaction } from '@/hooks/create-transaction';
+import { useFetchTransactionHexes } from '@/hooks/get-tx-hex';
 import { useValidateTransaction } from '@/hooks/validate';
-import { setCurrentView, setSentAmount } from '@/store/features/walletSlice';
+import { setCurrentView, setSentAmount, setUTxids } from '@/store/features/walletSlice';
 import { ContentViewE } from '@/store/models/state-machine.types';
 import { useGetTransactionsQuery } from '@/store/services/query';
 import { RootState } from '@/store/store';
@@ -18,18 +19,25 @@ import styles from './withdraw.module.css';
 
 export const Withdraw: FC = () => {
   const dispatch = useDispatch();
-  const [recipientAddress, setrRcipientAddress] = useState(
-    'tb1qlj64u6fqutr0xue85kl55fx0gt4m4urun25p7q'
-  );
+  const [recipientAddress, setrRcipientAddress] = useState('mgUoEwS1UoMrboekWx8cwYLcikdjJBEDcy');
   const [sendAmount, setSendAmount] = useState('0');
   const [error, setError] = useState<string | null>(null);
   const myAddress = useSelector((state: RootState) => state.wallet.address);
   const balance = useSelector((state: RootState) => state.wallet.balance);
   const privateKey = useSelector((state: RootState) => state.wallet.privateKey);
+  const uTxHexs = useSelector((state: RootState) => state.wallet.uTxHexs);
 
   const { data: utxos } = useGetTransactionsQuery(myAddress);
 
-  console.log(utxos);
+  const uTxids = utxos?.map((utxo) => utxo.txid);
+
+  useEffect(() => {
+    if (uTxids) {
+      dispatch(setUTxids(uTxids));
+    }
+  }, [dispatch, uTxids]);
+
+  useFetchTransactionHexes(uTxids || []);
 
   // const {} = useSendTransactionMutation();
 
@@ -44,7 +52,8 @@ export const Withdraw: FC = () => {
       setError(validationError);
       return;
     }
-    if (utxos && isValid) {
+
+    if (utxos && isValid && Object.values(uTxHexs).length === utxos.length) {
       const { rawTx, sentAmount } = await createTransaction({
         myAddress,
         privateKey,
@@ -52,6 +61,7 @@ export const Withdraw: FC = () => {
         balance,
         sendAmount: parseFloat(sendAmount),
         utxos,
+        uTxHexs,
       });
 
       console.log('rawTx', rawTx, 'sentAmount', sentAmount);

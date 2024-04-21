@@ -8,6 +8,8 @@ interface WalletState {
   privateKey: string;
   balance: number;
   sentAmount: number;
+  uTxids: string[];
+  uTxHexs: Record<string, string>;
 }
 
 export const LocalStorageE = {
@@ -21,6 +23,8 @@ const initialState: WalletState = {
   privateKey: '',
   balance: 0,
   sentAmount: 0,
+  uTxids: [],
+  uTxHexs: {},
 };
 
 const walletSlice = createSlice({
@@ -48,9 +52,22 @@ const walletSlice = createSlice({
     setSentAmount(state, action: PayloadAction<number>) {
       state.sentAmount = action.payload;
     },
+    setUTxids(state, action: PayloadAction<string[]>) {
+      state.uTxids = action.payload;
+    },
+    setUTxHexs(state, action: PayloadAction<Record<string, string>>) {
+      state.uTxHexs = { ...state.uTxHexs, ...action.payload };
+    },
   },
 });
 
-export const { setCurrentView, setAddress, setPrivatKey, setBalance, setSentAmount } =
-  walletSlice.actions;
+export const {
+  setCurrentView,
+  setAddress,
+  setPrivatKey,
+  setBalance,
+  setSentAmount,
+  setUTxids,
+  setUTxHexs,
+} = walletSlice.actions;
 export default walletSlice.reducer;

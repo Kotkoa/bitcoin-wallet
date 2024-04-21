@@ -1,11 +1,15 @@
 import { useEffect, useState } from 'react';
 
+import { SATOSHY } from '@/store/services/query';
+
 interface ValidateTransactionProps {
   recipientAddress: string;
   sendAmount: string;
   balance: number;
   minFee?: number;
 }
+
+const DUST = 546;
 
 export const useValidateTransaction = ({
   recipientAddress,
@@ -47,6 +51,12 @@ export const useValidateTransaction = ({
     // Check if the balance covers the send amount plus the miner fee
     if (balance < amountToSend + minFee) {
       setError('Insufficient funds to complete the transaction.');
+      setIsValid(false);
+      return;
+    }
+
+    if (amountToSend * SATOSHY < DUST) {
+      setError('Bitcoin dust transaction. Amount is too small.');
       setIsValid(false);
       return;
     }
