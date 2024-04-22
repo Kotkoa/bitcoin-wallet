@@ -1,4 +1,4 @@
-import { type FC, useEffect, useState } from 'react';
+import { type FC, useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { PaperAirplaneIcon } from '@heroicons/react/24/solid';
@@ -45,11 +45,9 @@ export const Withdraw: FC = () => {
     sendAmount,
   });
 
-  const [sendTransaction, result] = useSendTransactionMutation();
+  const [sendTransaction] = useSendTransactionMutation();
 
-  console.log('send result', result);
-
-  const handleChangeView = async () => {
+  const handleChangeView = useCallback(async () => {
     if (validationError) {
       setError(validationError);
       return;
@@ -65,13 +63,25 @@ export const Withdraw: FC = () => {
         utxos,
         uTxHexs,
       });
-
-      await sendTransaction({ rawTx });
-
+      console.log('here');
+      const res = await sendTransaction({ rawTx });
+      console.log(res);
       dispatch(setSentAmount(sentAmount));
     }
     dispatch(setCurrentView(ContentViewE.SuccessWithdraw));
-  };
+  }, [
+    balance,
+    dispatch,
+    isValid,
+    myAddress,
+    privateKey,
+    recipientAddress,
+    sendAmount,
+    sendTransaction,
+    uTxHexs,
+    utxos,
+    validationError,
+  ]);
 
   return (
     <>

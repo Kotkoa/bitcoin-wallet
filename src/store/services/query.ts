@@ -43,12 +43,8 @@ export const api = createApi({
       query: ({ rawTx: hex }) => ({
         url: `tx`,
         method: 'POST',
-        body: { hex },
+        body: hex,
       }),
-      transformResponse: (baseQueryReturnValue: unknown) => {
-        const data = JSON.parse(baseQueryReturnValue as string);
-        return data;
-      },
     }),
   }),
 });

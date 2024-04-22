@@ -36,20 +36,7 @@ export const createTransaction: createTransactionFunction = async ({
     throw new Error('Missing or invalid parameters.');
   }
 
-  console.log(
-    'utxos',
-    utxos,
-    'uTxHexs',
-    uTxHexs,
-    'privateKey',
-    privateKey,
-    'recipientAddress',
-    recipientAddress,
-    'sendAmount',
-    sendAmount,
-    'myAddress',
-    myAddress
-  );
+  console.log({ uTxHexs, privateKey, recipientAddress, sendAmount, myAddress });
 
   const keyPair = ECPairFactory(ecc).fromWIF(privateKey, TESTNET);
   const psbt = new bitcoin.Psbt({ network: TESTNET });
