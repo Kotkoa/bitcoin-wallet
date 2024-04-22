@@ -28,7 +28,6 @@ export const api = createApi({
     getBalance: builder.query<number, string>({
       query: (address) => `address/${address}`,
       transformResponse: (response: BlockchainResponse) => {
-        console.log({ response });
         const balance = response.chain_stats.spent_txo_sum / SATOSHY;
         return balance;
       },
