@@ -8,7 +8,7 @@ import { useFetchTransactionHexes } from '@/hooks/get-tx-hex';
 import { useValidateTransaction } from '@/hooks/validate';
 import { setCurrentView, setSentAmount, setUTxids } from '@/store/features/walletSlice';
 import { ContentViewE } from '@/store/models/state-machine.types';
-import { useGetTransactionsQuery } from '@/store/services/query';
+import { useGetTransactionsQuery, useSendTransactionMutation } from '@/store/services/query';
 import { RootState } from '@/store/store';
 
 import { Button } from '../button';
@@ -39,13 +39,15 @@ export const Withdraw: FC = () => {
 
   useFetchTransactionHexes(uTxids || []);
 
-  // const {} = useSendTransactionMutation();
-
   const { isValid, error: validationError } = useValidateTransaction({
     recipientAddress,
     balance,
     sendAmount,
   });
+
+  const [sendTransaction, result] = useSendTransactionMutation();
+
+  console.log('send result', result);
 
   const handleChangeView = async () => {
     if (validationError) {
@@ -64,7 +66,7 @@ export const Withdraw: FC = () => {
         uTxHexs,
       });
 
-      console.log('rawTx', rawTx, 'sentAmount', sentAmount);
+      await sendTransaction({ rawTx });
 
       dispatch(setSentAmount(sentAmount));
     }

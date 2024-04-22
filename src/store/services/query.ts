@@ -39,8 +39,8 @@ export const api = createApi({
         return response;
       },
     }),
-    sendTransaction: builder.mutation<void, { hex: string }>({
-      query: ({ hex }) => ({
+    sendTransaction: builder.mutation<void, { rawTx: string }>({
+      query: ({ rawTx: hex }) => ({
         url: `tx`,
         method: 'POST',
         body: { hex },

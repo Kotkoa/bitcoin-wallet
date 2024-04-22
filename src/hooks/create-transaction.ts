@@ -22,7 +22,7 @@ type createTransactionFunction = (
 
 const TESTNET = bitcoin.networks.testnet;
 
-const FEE_RATE = 400;
+export const FEE_RATE = 400;
 
 export const createTransaction: createTransactionFunction = async ({
   myAddress,
