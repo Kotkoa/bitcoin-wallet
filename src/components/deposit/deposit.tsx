@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import { DocumentDuplicateIcon } from '@heroicons/react/24/outline';
 
 import { RootState } from '@/store/store';
+import { sliceAddress } from '@/utils/slice-address';
 
 import { Button } from '../button';
 import { InnerWrapper } from '../inner-wrapper';
@@ -36,7 +37,7 @@ export const Deposit: FC = () => {
         <div className={styles.row}>
           <p className={styles.paragraph}>Your Bitcoin address</p>
         </div>
-        <p className={styles.header}>{address}</p>
+        <p className={styles.header}>{sliceAddress(address)}</p>
         <div className={styles.row}>
           <Button
             label={buttonLabel}

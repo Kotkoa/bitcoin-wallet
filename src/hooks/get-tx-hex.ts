@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 
 import { setUTxHexs } from '@/store/features/walletSlice';
+import { fetchTransactionHex } from '@/store/services/query';
 
 export const useFetchTransactionHexes = async (txIds: string[]): Promise<void> => {
   const dispatch = useDispatch();
@@ -11,13 +12,7 @@ export const useFetchTransactionHexes = async (txIds: string[]): Promise<void> =
       if (!txIds.length) return;
 
       try {
-        const results = await Promise.all(
-          txIds.map((txId) =>
-            fetch(`https://blockstream.info/testnet/api/tx/${txId}/hex`).then((res) => {
-              return res.text();
-            })
-          )
-        );
+        const results = await Promise.all(txIds.map((txId) => fetchTransactionHex(txId)));
 
         results.forEach((hex, index) => {
           if (hex) {
