@@ -6,10 +6,11 @@ import { ArrowUpCircleIcon, CheckBadgeIcon } from '@heroicons/react/24/solid';
 import { Transaction } from '@/store/models/state-machine.types';
 import { SATOSHY } from '@/store/services/query';
 import { RootState } from '@/store/store';
+import { getTxUrl } from '@/utils/get-tx-url';
+import { sliceAddress } from '@/utils/slice-address';
 
 import styles from './transaction.module.css';
 import classNames from 'classnames';
-
 interface TransactionProps {
   transaction: Transaction;
 }
@@ -17,16 +18,17 @@ interface TransactionProps {
 export const TransactionRow: FC<TransactionProps> = ({ transaction }) => {
   const address = useSelector((state: RootState) => state.wallet.address);
 
+  const inItems = transaction.vin.filter((vout) => vout.prevout.scriptpubkey_address === address);
   const addressTo = transaction.vout[0].scriptpubkey_address;
 
   const addressFrom = transaction.vout.filter((vout) => vout.scriptpubkey_address !== address)[0]
     .scriptpubkey_address;
 
-  const isSentTransaction = address !== transaction.vout[0].scriptpubkey_address;
+  const isSentTransaction = inItems.length > 0;
 
   return (
     <a
-      href={`https://blockstream.info/testnet/tx/${transaction.txid}`}
+      href={getTxUrl(transaction.txid)}
       target="_blank"
       rel="noopener noreferrer"
       className={styles.transactionRoot}
@@ -42,7 +44,9 @@ export const TransactionRow: FC<TransactionProps> = ({ transaction }) => {
           )}
         </div>
         <p className={styles.textAdderss}>
-          {isSentTransaction ? `To ${addressTo}` : `From ${addressFrom}`}
+          {isSentTransaction
+            ? `To ${sliceAddress(addressTo)}`
+            : `From ${sliceAddress(addressFrom)}`}
         </p>
       </div>
       <p className={classNames({ [styles.amountBlockRecieved]: !isSentTransaction })}>

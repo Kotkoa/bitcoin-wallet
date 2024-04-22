@@ -10,6 +10,7 @@ import { setCurrentView, setSentAmount, setUTxids } from '@/store/features/walle
 import { ContentViewE } from '@/store/models/state-machine.types';
 import { useGetTransactionsQuery, useSendTransactionMutation } from '@/store/services/query';
 import { RootState } from '@/store/store';
+import { sliceAddress } from '@/utils/slice-address';
 
 import { Button } from '../button';
 import { InnerWrapper } from '../inner-wrapper';
@@ -19,8 +20,8 @@ import styles from './withdraw.module.css';
 
 export const Withdraw: FC = () => {
   const dispatch = useDispatch();
-  const [recipientAddress, setrRcipientAddress] = useState('mgUoEwS1UoMrboekWx8cwYLcikdjJBEDcy');
-  const [sendAmount, setSendAmount] = useState('0');
+  const [recipientAddress, setrRcipientAddress] = useState('');
+  const [sendAmount, setSendAmount] = useState('');
   const [error, setError] = useState<string | null>(null);
   const myAddress = useSelector((state: RootState) => state.wallet.address);
   const balance = useSelector((state: RootState) => state.wallet.balance);
@@ -102,7 +103,7 @@ export const Withdraw: FC = () => {
           }}
         />
         <div className={styles.alignLeft}>
-          <p className={styles.address}>{myAddress}</p>
+          <p className={styles.address}>{sliceAddress(myAddress)}</p>
           <p className={styles.funds}>{sendAmount || 0} BTC</p>
           <p className={styles.fromBalance}>From balance {balance} BTC</p>
         </div>

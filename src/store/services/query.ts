@@ -4,6 +4,11 @@ import { Transaction, UTransactionI } from '../models/state-machine.types';
 
 export const SATOSHY = 100000000;
 
+export const fetchTransactionHex = async (txid: string) => {
+  const res = await fetch(`https://blockstream.info/testnet/api/tx/${txid}/hex`);
+  return res.text();
+};
+
 export const api = createApi({
   reducerPath: 'api',
   baseQuery: fetchBaseQuery({ baseUrl: 'https://blockstream.info/testnet/api/' }),

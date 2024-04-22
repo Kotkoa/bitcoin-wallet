@@ -9,6 +9,7 @@ import { setBalance, setCurrentView } from '@/store/features/walletSlice';
 import { ContentViewE } from '@/store/models/state-machine.types';
 import { useGetBalanceQuery } from '@/store/services/query';
 import { RootState } from '@/store/store';
+import { sliceAddress } from '@/utils/slice-address';
 
 import { Button } from '../button';
 import { InnerWrapper } from '../inner-wrapper';
@@ -55,7 +56,7 @@ export const Wallet: FC = () => {
     <>
       <h1 className={styles.paragraph}>Your Bitcoin address</h1>
       <div className={styles.row}>
-        <p className={styles.header}>{address}</p>
+        <p className={styles.header}>{sliceAddress(address)}</p>
         <Button
           label=""
           icon={<DocumentDuplicateIcon width={24} height={24} />}

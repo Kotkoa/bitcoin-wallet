@@ -1,6 +1,5 @@
 import ecc from '@bitcoinerlab/secp256k1';
 import * as bitcoin from 'bitcoinjs-lib';
-// import bitcore from 'bitcore-lib';
 import ECPairFactory from 'ecpair';
 
 import { Transaction } from '@/store/models/state-machine.types';
@@ -38,32 +37,39 @@ export const createTransaction: createTransactionFunction = async ({
 
   const keyPair = ECPairFactory(ecc).fromWIF(privateKey, TESTNET);
   const psbt = new bitcoin.Psbt({ network: TESTNET });
+  debugger;
 
   let totalUtxoValue = 0;
 
-  utxos.forEach((utxo) => {
+  utxos.forEach((utxo, index) => {
     const rawTxHex = uTxHexs[utxo.txid];
 
     if (rawTxHex) {
       psbt.addInput({
         hash: utxo.txid,
-        index: 0,
+        index: index,
         nonWitnessUtxo: Buffer.from(rawTxHex, 'hex'),
       });
 
-      totalUtxoValue += utxo.vout[0].value;
+      // collect all sats from vouts
+      totalUtxoValue += utxo.vout
+        .filter((item) => item.scriptpubkey_address === myAddress)
+        .reduce((a, b) => a + b.value, 0);
     }
   });
 
-  const totalNeeded = sendAmount * SATOSHY + FEE_RATE;
+  // avoid situations with 60000.0000000001 sats
+  const amountSats = Math.floor(sendAmount * SATOSHY);
+  const totalNeeded = amountSats + FEE_RATE;
 
+  debugger;
   if (totalNeeded > totalUtxoValue) {
     throw new Error('Insufficient funds.');
   }
 
   psbt.addOutput({
     address: recipientAddress,
-    value: Math.floor(sendAmount * SATOSHY),
+    value: amountSats,
   });
 
   const changeValue = totalUtxoValue - totalNeeded;

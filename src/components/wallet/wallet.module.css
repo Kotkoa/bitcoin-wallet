@@ -2,11 +2,6 @@
   font-size: 30px;
   font-weight: 700;
   line-height: 36.31px;
-
-  width: 60%;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
 }
 
 .paragraph {
