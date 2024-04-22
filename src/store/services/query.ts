@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
-import { Transaction, UTransactionI } from '../models/state-machine.types';
+import { BlockchainResponse, Transaction, UTransactionI } from '../models/state-machine.types';
 
 export const SATOSHY = 100000000;
 
@@ -27,8 +27,9 @@ export const api = createApi({
     }),
     getBalance: builder.query<number, string>({
       query: (address) => `address/${address}`,
-      transformResponse: (response: { chain_stats: { funded_txo_sum: number } }) => {
-        const balance = response.chain_stats.funded_txo_sum / SATOSHY;
+      transformResponse: (response: BlockchainResponse) => {
+        console.log({ response });
+        const balance = response.chain_stats.spent_txo_sum / SATOSHY;
         return balance;
       },
     }),

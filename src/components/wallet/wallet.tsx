@@ -25,8 +25,6 @@ export const Wallet: FC = () => {
     skip: !address,
   });
 
-  console.log(balance);
-
   useEffect(() => {
     if (balance) {
       dispatch(setBalance(balance));

@@ -50,7 +50,7 @@ export const TransactionRow: FC<TransactionProps> = ({ transaction }) => {
         </p>
       </div>
       <p className={classNames({ [styles.amountBlockRecieved]: !isSentTransaction })}>
-        +{transaction.vout[0].value / SATOSHY} BTC
+        {`${isSentTransaction ? '-' : '+'}${transaction.vout[0].value / SATOSHY} BTC`}
       </p>
     </a>
   );
