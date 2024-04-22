@@ -23,6 +23,8 @@ export const TransactionList: FC<TransactionListProps> = ({ walletAddress }) => 
     skip: !walletAddress,
   });
 
+  console.log({ transactions });
+
   const isNoTransactions = !transactions || transactions.length === 0;
 
   if (transactionsError) {

@@ -63,9 +63,9 @@ export const Withdraw: FC = () => {
         utxos,
         uTxHexs,
       });
-      console.log('here');
+
       const res = await sendTransaction({ rawTx });
-      console.log(res);
+      console.log({ res });
       dispatch(setSentAmount(sentAmount));
     }
     dispatch(setCurrentView(ContentViewE.SuccessWithdraw));

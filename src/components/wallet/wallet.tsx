@@ -23,6 +23,9 @@ export const Wallet: FC = () => {
   const { data: balance, error: balanceError } = useGetBalanceQuery(address, {
     skip: !address,
   });
+
+  console.log(balance);
+
   useEffect(() => {
     if (balance) {
       dispatch(setBalance(balance));

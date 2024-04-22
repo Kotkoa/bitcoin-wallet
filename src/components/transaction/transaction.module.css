@@ -50,6 +50,10 @@
   }
 }
 
+.turnIcon {
+  transform: rotate(180deg);
+}
+
 .row {
   display: flex;
   align-items: center;
