@@ -2,6 +2,8 @@
 
 **Bitcoin Wallet** is a minimalist yet powerful web application designed for interacting with the Bitcoin Testnet. Built using modern web technologies such as React.js, Next.js, and Redux Toolkit, this application allows users to effortlessly create a Bitcoin address, manage and view transactions, and send bitcoins to specific addresses.
 
+![Bitcoin Wallet Screenshot](https://github.com/Kotkoa/bitcoin-wallet/blob/main/Screenshot%202024-04-29%20at%2021.55.40.png)
+
 ## Links and Recources
 
 - **Design Resources:**: [Figma Designs](https://www.figma.com/file/yi9IptRTSWss5zF8ETC3u2/HH-Test-Bitcoin-Wallet?type=design&node-id=0-1&mode=design)
