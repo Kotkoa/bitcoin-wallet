@@ -45,7 +45,7 @@ Once the dependencies are installed, you can start the development server by run
 yarn dev
 ```
 
-Open http://localhost:3000 in your browser to see the application in action.
+Open <http://localhost:3000> in your browser to see the application in action.
 
 ## Deployment
 
